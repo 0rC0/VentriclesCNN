@@ -1,0 +1,31 @@
+#!/bin/bash
+
+bids_root="/home/orco/data/VentrikelCNN"
+der_name="ventricle_seg"
+der_dir="$bids_root/derivatives/$der_name"
+
+
+container="/home/orco/data/kinderseg/HBN_MRI/code/scripts/ventricle-parcellation_v4.simg"
+
+cd $bids_root
+subs=($(ls -1d sub-V2??))
+
+
+
+for s in ${subs[@]}
+do
+  echo $s
+  if [ ! -e $der_dir/${s}/ses-01/anat/${s}_T1w_n4_mni_strip_seg_inverse.nii.gz ]
+  then
+    mkdir -p "$der_dir/${s}/ses-01/anat"
+    t1=($( ls $bids_root/${s}/ses-01/anat/*T1w.nii.gz))
+    echo $t1
+    singularity run \
+      -B ${bids_root}:/mnt \
+      $container \
+      -i /mnt/${s}/ses-01/anat/${s}_ses-01_T1w.nii.gz \
+      -o /mnt/derivatives/$der_name/${s}/ses-01/anat
+    else
+      echo "Segmentation exists - Skipping"
+  fi
+done
