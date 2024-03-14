@@ -1,11 +1,11 @@
 #!/bin/bash
 
-bids_root="/home/orco/data/VentrikelCNN"
+bids_root="$HOME/data/VentrikelCNN"
 der_name="ventricle_seg"
 der_dir="$bids_root/derivatives/$der_name"
 
 
-container="/home/orco/data/kinderseg/HBN_MRI/code/scripts/ventricle-parcellation_v4.simg"
+container="$HOME/data/kinderseg/HBN_MRI/code/scripts/ventricle-parcellation_v4.simg"
 
 cd $bids_root
 subs=($(ls -1d sub-V2??))
