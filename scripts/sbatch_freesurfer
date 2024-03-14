@@ -1,0 +1,36 @@
+#!/bin/bash
+#SBATCH --job-name=VentrikelSeg_freesurfer
+#SBATCH --ntasks=10
+#SBATCH --nodes=1
+#SBATCH --time=4:00:00
+#SBATCH --mem=8G
+#SBATCH --partition=medium
+#SBATCH --array=0-217%10
+#SBATCH --mail-user=andrea.dellorco@charite.de
+#SBATCH --output VentrikelSeg_freesurfer.log
+#SBATCH --error VentrikelSeg_freesurfer.errlog
+
+source ~/.bashrc
+export bids_root=$HOME/work/VentrikelCNN
+export SUBJECTS_DIR=$bids_root/derivatives/freesurfer
+export FREESURFER_HOME=$HOME/work/freesurfer-7.4
+source $FREESURFER_HOME/SetUpFreeSurfer.sh
+
+cd $bids_root
+niis=($(ls -1 ./*/*/*/*nii.gz))
+
+export nii=${niis[$SLURM_ARRAY_TASK_ID]}
+
+echo "Processing $nii"
+export subject=$(echo $nii | cut -d'/' -f2)
+export session=$(echo $nii | cut -d'/' -f3)
+export modality=$(echo $nii | cut -d'/' -f4)
+
+echo "Subject: $subject"
+echo "Session: $session"
+echo "Modality: $modality"
+recon-all -i $nii -s $subject -autorecon1 -parallel -openmp 10
+# Calculate eTIV
+mri_segstats --subject $subject --etiv-only | grep 'atlas_icv' | awk '{print $4}' > $SUBJECTS_DIR/$subject/stats/eTIV.txt
+
+exit 0
