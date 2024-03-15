@@ -1,0 +1,48 @@
+#!/bin/bash
+#SBATCH --job-name=VentrikelCNN_5foldCV_4cl
+#SBATCH --output="nnUnet2_VentrikelCNN_5foldCV_4cl_test.txt"
+#SBATCH --gres=gpu:tesla:1
+#SBATCH --ntasks=16
+#SBATCH --nodes=1
+#SBATCH --time=2-00:00:00
+#SBATCH --mem=32G
+#SBATCH --partition=gpu
+#SBATCH --array=0-5%2
+
+tasks=(21 22 23 24 25)
+
+export task="0${tasks[$SLURM_ARRAY_TASK_ID]}"
+echo "task $task"
+export dataset="Dataset${task}_5FoldCV"
+echo "Dataset $dataset"
+source ~/.bashrc
+conda activate nnunet
+export base_dir="$HOME/work/Ventrikel_nnUNet"
+export nnUNet_preprocessed=$base_dir/preproc
+export nnUNet_raw=$base_dir/nnUNet_raw
+export nnUNet_results=$base_dir/results
+
+cd $base_dir
+
+if [ ! $task -eq 021 ]; then
+    # Move plans and preprocess
+    nnUNetv2_plan_and_preprocess -d $task --verify_dataset_integrity -np 16 -c 3d_fullres # For some reson it is better to preprocess and then overwrite everything
+    nnUNetv2_move_plans_between_datasets -s 021 -t $task -sp nnUNetPlans -tp nnUNetPlans
+    nnUNetv2_preprocess -d $task -plans_name nnUNetPlans -np 16 -c 3d_fullres
+    # Train
+    export OMP_NUM_THREADS=1 
+    nnUNetv2_train $task 3d_fullres 1 -p nnUNetPlans
+else
+    ## Preprocess
+    nnUNetv2_plan_and_preprocess -d $task --verify_dataset_integrity -np 16 -c 3d_fullres
+    # Train
+    export OMP_NUM_THREADS=1 
+    nnUNetv2_train $task 3d_fullres 1
+fi
+
+
+## Test
+cd $nnUNet_raw/$dataset
+export test_dir="$nnUNet_raw/$dataset/test_fold1"
+mkdir -p $test_dir
+nnUNetv2_predict -i $nnUNet_raw/$dataset/imagesTs -o $test_dir -d $task -c 3d_fullres -f 1
