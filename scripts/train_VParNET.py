@@ -1,6 +1,11 @@
 # Usage 
-# python train_5Fold_ds.py [path_to_dataset]
-# python train_5Fold_ds.py /mnt/data/DSB3/Dataset001
+# python train_VParNET.py [path_to_dataset] [optional path_to_saved_model]
+# python train_VParNET.py /mnt/data/DSB3/Dataset001
+# Arguments:
+# - path_to_dataset: Path to the dataset. See the dataset structure below.
+# - optional path_to_saved_model: Path to the saved model. If not provided, the script will train the model from scratch.
+
+
 # The Dataset001 should contain the following folders:
 # - ImagesTr
 # - LabelsTr
@@ -8,6 +13,7 @@
 # - LabelsTs (optional)
 # The script will create a folder called "results" and save the trained models and logs there.
 
+# Note (and maybe ToDo) a lot of paramaters, like learning rate or batch size are hardcoded in the script.
 
 import sys
 #sys.path.append('./')
@@ -46,11 +52,12 @@ from keras.models import load_model
 from tensorflow.keras.utils import get_custom_objects
 from datetime import date
 
+# Global variables
 train_label = str(date.today()).replace('-','')[2:]
 print('train label {}'.format(train_label))
-
 mask = './VParNet_Sandbox/opt/mni_icbm152_2009c_t1_1mm_brain_mask.nii.gz'
-saved_model = './VParNet_Sandbox/opt/nmm15_nph25_continue_x2_continue_model_050.h5'
+original_model = './VParNet_Sandbox/opt/nmm15_nph25_continue_x2_continue_model_050.h5'
+
 
 def calc_aver_dice2(image1, image2, axis=(-3, -2, -1), eps=0.001):
     """Calculate average Dice across channels
@@ -81,10 +88,12 @@ def img2lbl(i):
     return i.replace('ImagesTr', 'LabelsTr').replace('_T1w', '_desc-ventricle-mask-noacq')
 
 
-def main(path_to_dataset):
+def main(path_to_dataset, path_to_saved_model=None):
     global mask
-    global saved_model
+    global original_model
     global train_label
+
+    saved_model = original_model if path_to_saved_model is None else path_to_saved_model
     img_paths = glob.glob(os.path.join(path_to_dataset, 'ImagesTr', '*.nii.gz'))
     lbl_paths = [img2lbl(i) for i in img_paths]
     train_n = len(img_paths)
@@ -137,7 +146,7 @@ def main(path_to_dataset):
 
     learning_rate = 1e-4
     model.compile(optimizer=Adam(learning_rate=learning_rate), loss=calc_aver_dice_loss2)
-    args.output_prefix = 'choloepus_'
+    args.output_prefix = 'choloepus_' + os.path.basename(path_to_dataset) + '_'
     args.num_epoches = 200
     model_path_prefix = './train_data/{}_'.format(train_label) + args.output_prefix + '_model_{epoch:03d}.h5'
     if not os.path.exists('./train_data'):
@@ -164,6 +173,8 @@ def main(path_to_dataset):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train 5-fold model on the dataset', formatter_class=ArgumentDefaultsHelpFormatter)
     parser.add_argument('path_to_dataset', help='Path to the dataset')
+    parser.add_argument('path_to_saved_model', help='Path to the saved model', default='')
     args = parser.parse_args()
     path_to_dataset = args.path_to_dataset
-    main(path_to_dataset)
+    path_to_saved_model = args.path_to_saved_model
+    main(path_to_dataset, path_to_saved_model)
