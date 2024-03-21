@@ -129,9 +129,12 @@ def main(path_to_dataset, path_to_saved_model=None):
     
     custom_objects={'calc_aver_dice_loss': calc_aver_dice_loss2,
                 'InstanceNormalization': InstanceNormalization}
-    unet = load_model(saved_model, custom_objects=custom_objects)
-    get_custom_objects().update(custom_objects)
-    model = tf.keras.models.clone_model(unet)
+    if not path_to_dataset:
+        unet = load_model(saved_model, custom_objects=custom_objects)
+        get_custom_objects().update(custom_objects)
+        model = tf.keras.models.clone_model(unet)
+    else:
+        model = load_model(saved_model, custom_objects=custom_objects)
     data_generator_factory = DataGeneratorFactory(batch_size=args.batch_size)
     training_generator = data_generator_factory.create(t_dataset)
     validation_generator = data_generator_factory.create(v_dataset)
@@ -148,7 +151,7 @@ def main(path_to_dataset, path_to_saved_model=None):
     model.compile(optimizer=Adam(learning_rate=learning_rate), loss=calc_aver_dice_loss2)
     args.output_prefix = 'choloepus_' + os.path.basename(path_to_dataset) + '_'
     args.num_epoches = 200
-    model_path_prefix = './train_data/{}_'.format(train_label) + args.output_prefix + '_model_{epoch:03d}.h5'
+    model_path_prefix = os.path.join(path_to_dataset, '{}_'.format(train_label) + args.output_prefix + '_model_{epoch:03d}.h5')
     if not os.path.exists('./train_data'):
         os.makedirs('./train_data')
     log_path = './train_data/{}_'.format(train_label) + args.output_prefix + '_log.csv'
