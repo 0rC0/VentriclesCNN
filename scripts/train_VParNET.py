@@ -129,7 +129,7 @@ def main(path_to_dataset, path_to_saved_model=None):
     
     custom_objects={'calc_aver_dice_loss': calc_aver_dice_loss2,
                 'InstanceNormalization': InstanceNormalization}
-    if not path_to_dataset:
+    if not path_to_dataset or not os.path.exists(path_to_dataset):
         unet = load_model(saved_model, custom_objects=custom_objects)
         get_custom_objects().update(custom_objects)
         model = tf.keras.models.clone_model(unet)
@@ -176,8 +176,8 @@ def main(path_to_dataset, path_to_saved_model=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train 5-fold model on the dataset', formatter_class=ArgumentDefaultsHelpFormatter)
     parser.add_argument('path_to_dataset', help='Path to the dataset')
-    parser.add_argument('path_to_saved_model', help='Path to the saved model', default='')
+    parser.add_argument('path_to_saved_model', help='Path to the saved model')
     args = parser.parse_args()
     path_to_dataset = args.path_to_dataset
-    path_to_saved_model = args.path_to_saved_model
+    path_to_saved_model = args.path_to_saved_model if os.path.exists(args.path_to_saved_model) else None
     main(path_to_dataset, path_to_saved_model)

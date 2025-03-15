@@ -1,11 +1,7 @@
-# Scripts
+### Scripts
+Example scripts to automate the individual tasks of the article.
 
-Example scripts to automatize the individual tasks of the article.
-
-- augmentation: grab the subjects from each training fold and apply the augmentation to the images and labels.
-
-- cnnseg: Script to run the Singularity container with the original VParNET model for ventricular segmentation of the whole BIDS dataset.
-
-- sbatch_freesurfer: Script to run FreeSurfer autorecon1 from recon-all on the BIDS dataset and calculate the estimated total intracranial volume (eTIV).
-
-- run_fastsurfer: Script to run Fastsurfer on the BIDS dataset.
+* sbatch_021-25_5FoldCV_test: Slurm SBatch script to train nnUNet
+* sbatch_freesurfer: Slurm SBatch script to run Freesurfer (to achieve eTIV)
+* test_VParNet.py: prediction script for VParNet
+* train_VParNet.py: train script for VParNet
