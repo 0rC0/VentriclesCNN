@@ -1,6 +1,13 @@
 # VentriclesCNN
+
+[![DOI](https://img.shields.io/badge/DOI-10.17605%2FOSF.IO%2FHPU5B-blue)](https://doi.org/10.17605/OSF.IO/HPU5B)
+
+[![OSF.io](https://img.shields.io/badge/OSF.io-10.17605%2FOSF.IO%2FHPU5B-blue)](https://osf.io/hpu5b/)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ```
-Kühne, F; Rüther, K; Güttler, C; Stöckel, J; Thomale, U; Tietze, A; Dell’Orco, A - "Application of deep neural networks in automatized ventriculometry and segmentation of the aqueduct in pediatric hydrocephalus patients" - 2025, Submitted
+Kühne, F; Rüther, K; Güttler, C; Stöckel, J; Thomale, U; Tietze, A; Dell’Orco, A - "Application of deep neural networks in automatized ventriculometry and segmentation of the aqueduct in pediatric hydrocephalus patients" - 2025, OSF Preprints. DOI: [10.17605/OSF.IO/HPU5B](https://doi.org/10.17605/OSF.IO/HPU5B)
 ```
 
 Please refer to the README.md in the individual folders
