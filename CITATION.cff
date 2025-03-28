@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the following work."
+authors:
+  - family-names: Kühne
+    given-names: Fabienne
+    affiliation: "Department of Neonatology, Charité – University Medicine Berlin, Berlin, Germany"
+  - family-names: Rüther
+    given-names: Kilian
+    affiliation: "Institute of Neuroradiology, Charité – University Medicine Berlin, Berlin, Germany"
+  - family-names: Güttler
+    given-names: Christopher
+    affiliation: "Institute of Neuroradiology, Charité – University Medicine Berlin, Berlin, Germany"
+  - family-names: Stöckel
+    given-names: Juliane
+    affiliation: "Institute of Neuroradiology, Charité – University Medicine Berlin, Berlin, Germany"
+  - family-names: Thomale
+    given-names: Ulrich-Wilhelm
+    affiliation: "Department of Neurosurgery with Pediatric Neurosurgery, Charité – University Medicine Berlin, Berlin, Germany"
+  - family-names: Tietze
+    given-names: Anna
+    affiliation: "Institute of Neuroradiology, Charité – University Medicine Berlin, Berlin, Germany"
+  - family-names: Dell’Orco
+    given-names: Andrea
+    affiliation: "Institute of Neuroradiology, Charité – University Medicine Berlin, Berlin, Germany"
+title: "Application of deep neural networks in automatized ventriculometry and segmentation of the aqueduct in pediatric hydrocephalus patients"
+version: "1.0.0"
+date-released: 2025-03-28
+doi: "10.17605/OSF.IO/HPU5B"
+url: "https://osf.io/hpu5b/"
