@@ -9,7 +9,10 @@
 Deep-learning MRI segmentation of ventricles in pediatric hydrocephalus using nnU-Net and VParNet.
 
 ```
-Kühne, F; Rüther, K; Güttler, C; Stöckel, J; Thomale, U; Tietze, A; Dell’Orco, A - "Application of deep neural networks in automatized ventriculometry and segmentation of the aqueduct in pediatric hydrocephalus patients" - 2025, OSF Preprints. DOI: [10.17605/OSF.IO/HPU5B](https://doi.org/10.17605/OSF.IO/HPU5B)
+Kühne, F; Rüther, K; Güttler, C; Stöckel, J; Thomale, U; Tietze, A; Dell’Orco, A  
+"Application of deep neural networks in automatized ventriculometry and segmentation of the aqueduct in pediatric hydrocephalus patients"  
+2025, OSF Preprints.  
+DOI: [10.17605/OSF.IO/HPU5B](https://doi.org/10.17605/OSF.IO/HPU5B)
 ```
 
 Please refer to the README.md in the individual folders
@@ -64,4 +67,17 @@ predictor.predict_from_files([[in_file]], [out_file],
 ### Case 2: Ensemble of all models from five-fold cross-validation
 ```
 ToDo
+```
+
+## Citation
+
+```
+@article{kuhne2025,
+  author = {Kühne, Fabienne and Rüther, Kilian and Güttler, Christopher and Stöckel, Juliane and Thomale, Ulrich-Wilhelm and Tietze, Anna and Dell’Orco, Andrea},
+  title = {Application of deep neural networks in automatized ventriculometry and segmentation of the aqueduct in pediatric hydrocephalus patients},
+  year = {2025},
+  journal = {OSF Preprints},
+  doi = {10.17605/OSF.IO/HPU5B},
+  url = {https://doi.org/10.17605/OSF.IO/HPU5B}
+}
 ```
