@@ -6,6 +6,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+Deep-learning MRI segmentation of ventricles in pediatric hydrocephalus using nnU-Net and VParNet.
+
 ```
 Kühne, F; Rüther, K; Güttler, C; Stöckel, J; Thomale, U; Tietze, A; Dell’Orco, A - "Application of deep neural networks in automatized ventriculometry and segmentation of the aqueduct in pediatric hydrocephalus patients" - 2025, OSF Preprints. DOI: [10.17605/OSF.IO/HPU5B](https://doi.org/10.17605/OSF.IO/HPU5B)
 ```
