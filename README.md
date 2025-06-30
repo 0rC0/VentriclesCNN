@@ -19,6 +19,8 @@ Please refer to the README.md in the individual folders
 
 Models' weights are shared on [OSF.io|https://osf.io/hpu5b/]
 
+![VentrikelCNN Example Output](imgs/img1.png)
+
 ## Example usage
 
 ### Create nnunet conda environment
